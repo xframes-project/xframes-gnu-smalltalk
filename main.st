@@ -1,7 +1,7 @@
 | myDict jsonStr |
 
 PackageLoader fileInPackage: 'JSON'.
-PackageLoader fileInPackage: 'CObject'.
+" PackageLoader fileInPackage: 'CObject'. "
 
 OnInitCb := [:callback | "Callback logic"].
 OnTextChangedCb := [:index :text | "Handle text changed"].
@@ -11,13 +11,13 @@ OnBooleanValueChangedCb := [:index :value | "Handle boolean value changed"].
 OnMultipleNumericValuesChangedCb := [:index :values :numValues | "Handle multiple numeric values changed"].
 OnClickCb := [:index | "Handle click"].
 
-initFunction := ExternalFunction
+" initFunction := ExternalFunction
     fromHandle: 'init'
     module: 'yourlibrary'
     argumentTypes: #( #string #string #string 
                       #callback #callback #callback #callback 
                       #callback #callback #callback )
-    returnType: #void.
+    returnType: #void. "
 
 myDict := Dictionary new.
 myDict at: 'name' put: 'Alice'.
