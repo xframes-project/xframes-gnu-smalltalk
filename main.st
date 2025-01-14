@@ -11,14 +11,6 @@ OnBooleanValueChangedCb := [:index :value | "Handle boolean value changed"].
 OnMultipleNumericValuesChangedCb := [:index :values :numValues | "Handle multiple numeric values changed"].
 OnClickCb := [:index | "Handle click"].
 
-" initFunction := ExternalFunction
-    fromHandle: 'init'
-    module: 'yourlibrary'
-    argumentTypes: #( #string #string #string 
-                      #callback #callback #callback #callback 
-                      #callback #callback #callback )
-    returnType: #void. "
-
 myDict := Dictionary new.
 myDict at: 'name' put: 'Alice'.
 myDict at: 'age' put: 30.
