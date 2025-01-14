@@ -3,7 +3,7 @@
 PackageLoader fileInPackage: 'JSON'.
 PackageLoader fileInPackage: 'CObject'.
 
-OnInitCb := [:callback | "Callback logic here"].
+OnInitCb := [:callback | "Callback logic"].
 OnTextChangedCb := [:index :text | "Handle text changed"].
 OnComboChangedCb := [:index :newValue | "Handle combo changed"].
 OnNumericValueChangedCb := [:index :value | "Handle numeric value changed"].
