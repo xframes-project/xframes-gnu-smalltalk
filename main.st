@@ -1,6 +1,7 @@
-| myDict jsonStr |
+| myDict jsonStr callback2 callback2 callbackDescriptor1 callbackDescriptor2 |
 
 PackageLoader fileInPackage: 'JSON'.
+PackageLoader fileInPackage: 'DLD'.
 " PackageLoader fileInPackage: 'CObject'. "
 
 OnInitCb := [:callback | "Callback logic"].
@@ -18,17 +19,64 @@ myDict at: 'age' put: 30.
 jsonStr := WriteStream on: String new.
 myDict jsonWriteOn: jsonStr.
 
-
-Transcript show: jsonStr contents; nl.
-
-
-
-'Hello, World!' displayNl.
-
 x := Dictionary new.
 x at: 'One' put: 1.
 x at: 'Two' put: 2.
 x at: 1 put: 'One'.
 x at: 2 put: 'Two'.
 
-x displayNl.
+
+
+
+
+"Define the callback block"
+callback2 := [ :arg1 :arg2 |
+    Transcript show: 'Callback called with args: ', arg1 printString, ' and ', arg2 printString; nl.
+].
+
+callback1 := [ 
+    Transcript show: 'Callback called with no arguments'; nl.
+].
+
+"Create the callback descriptor"
+callbackDescriptor2 := CCallbackDescriptor for: callback2
+    returning: #void
+    withArgs: #(#string #string).
+
+callbackDescriptor1 := CCallbackDescriptor for: callback1
+    returning: #void
+    withArgs: #().
+
+
+
+
+
+
+
+
+
+DLD addLibrary: 'libxframesshared.so'.
+(CFunctionDescriptor isFunction: 'init') displayNl.
+ 
+CObject subclass: XFrames [
+    XFrames class >> init: a b: bb c: cc onInit: onInitCb [
+        <cCall: 'init' returning: #void args: #(#string #string #string #smalltalk)>
+    ]
+
+    XFrames class >> test [
+        Transcript show: 'Callback called with no arguments'; nl.
+    ]
+]
+
+callback3 := [ XFrames test ].
+
+callbackDescriptor3 := CCallbackDescriptor for: callback3
+    returning: #void
+    withArgs: #().
+
+XFrames init: './assets' b: '{}' c: '{}' onInit: callbackDescriptor3.
+
+inputStringOne := stdin nextLine.
+
+
+" x displayNl. "
