@@ -27,6 +27,11 @@ Ubuntu 24.04
 
 ![image](https://github.com/user-attachments/assets/d3e04d5c-9670-443b-aa71-23cad2a6614c)
 
+WSL2 - Ubuntu 24.04 
+
+![image](https://github.com/user-attachments/assets/9ec6fb5a-62ac-4989-be2e-8b0c71e0c61c)
+
+
 Raspberry Pi 5
 
 ![20250116_18h08m17s_grim](https://github.com/user-attachments/assets/f58d2a5c-808b-4a55-9bf9-87b5fd5b799f)
