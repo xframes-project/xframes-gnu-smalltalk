@@ -1,4 +1,4 @@
-| myDict jsonStr callback2 callback2 callbackDescriptor1 callbackDescriptor2 |
+| myDict jsonStr onInitCb onInitClosureBlock onTextChangedCb onTextChangedClosureBlock onComboChangedClosureBlock onComboChangedCb onNumericValueChangedClosureBlock onNumericValueChangedCb onBooleanValueChangedClosureBlock onBooleanValueChangedCb onMultipleNumericValuesChangedClosureBlock onMultipleNumericValuesChangedCb onClickCb onClickClosureBlock |
 
 PackageLoader fileInPackage: 'JSON'.
 PackageLoader fileInPackage: 'DLD'.
@@ -28,53 +28,82 @@ x at: 2 put: 'Two'.
 
 
 
-
-"Define the callback block"
-callback2 := [ :arg1 :arg2 |
-    Transcript show: 'Callback called with args: ', arg1 printString, ' and ', arg2 printString; nl.
+onInitClosureBlock := [ 
+    Transcript show: 'Initialized'; nl.
 ].
 
-callback1 := [ 
-    Transcript show: 'Callback called with no arguments'; nl.
-].
-
-"Create the callback descriptor"
-callbackDescriptor2 := CCallbackDescriptor for: callback2
-    returning: #void
-    withArgs: #(#string #string).
-
-callbackDescriptor1 := CCallbackDescriptor for: callback1
+onInitCb := CCallbackDescriptor for: onInitClosureBlock
     returning: #void
     withArgs: #().
 
+onTextChangedClosureBlock := [ :arg1 :arg2 |
+    Transcript show: 'Text value changed: ', arg1 printString, ' : ', arg2 printString; nl.
+].
 
+onTextChangedCb := CCallbackDescriptor for: onTextChangedClosureBlock
+    returning: #void
+    withArgs: #(#int #string).
 
+onComboChangedClosureBlock := [ :arg1 :arg2 |
+    Transcript show: 'Combo value changed: ', arg1 printString, ' : ', arg2 printString; nl.
+].
 
+onComboChangedCb := CCallbackDescriptor for: onComboChangedClosureBlock
+    returning: #void
+    withArgs: #(#int #int).
 
+onNumericValueChangedClosureBlock := [ :arg1 :arg2 |
+    Transcript show: 'Numeric value changed: ', arg1 printString, ' : ', arg2 printString; nl.
+].
 
+onNumericValueChangedCb := CCallbackDescriptor for: onNumericValueChangedClosureBlock
+    returning: #void
+    withArgs: #(#int #float).
 
+onBooleanValueChangedClosureBlock := [ :arg1 :arg2 |
+    Transcript show: 'Boolean value changed: ', arg1 printString, ' : ', arg2 printString; nl.
+].
 
+"I cannot see 'bool' anywhere in the docs"
+onBooleanValueChangedCb := CCallbackDescriptor for: onBooleanValueChangedClosureBlock
+    returning: #void
+    withArgs: #(#int #int).
+
+onMultipleNumericValuesChangedClosureBlock := [ :arg1 :arg2 :arg3 |
+    Transcript show: 'Multiple numeric values changed: ', arg1 printString, ' : ', arg2 printString; nl.
+].
+
+"I cannot see 'bool' anywhere in the docs"
+onMultipleNumericValuesChangedCb := CCallbackDescriptor for: onMultipleNumericValuesChangedClosureBlock
+    returning: #void
+    withArgs: #(#int #cObject #int).
+
+onClickClosureBlock := [ :arg1 |
+    Transcript show: 'Clicked : ', arg1 printString; nl.
+].
+
+onClickCb := CCallbackDescriptor for: onClickClosureBlock
+    returning: #void
+    withArgs: #(#int).
 
 DLD addLibrary: 'libxframesshared.so'.
 (CFunctionDescriptor isFunction: 'init') displayNl.
  
+" @see https://www.gnu.org/software/smalltalk/manual/html_node/C-data-types.html "
 CObject subclass: XFrames [
-    XFrames class >> init: a b: bb c: cc onInit: onInitCb onTextChanged: onTextChangedCb onComboChanged: onComboChangedCb onNumericValueChanged: onNumericValueChangedCb onBooleanValueChanged: onBooleanValueChangedCb onMultipleNumericValuesChanged: onMultipleNumericValuesChangedCb onClick: onClickCb [
+    XFrames class >> init: a fontsDefs: fd themeDef: td onInit: onInitCb onTextChanged: onTextChangedCb onComboChanged: onComboChangedCb onNumericValueChanged: onNumericValueChangedCb onBooleanValueChanged: onBooleanValueChangedCb onMultipleNumericValuesChanged: onMultipleNumericValuesChangedCb onClick: onClickCb [
         <cCall: 'init' returning: #void args: #(#string #string #string #unknown #unknown #unknown #unknown #unknown #unknown #unknown)>
     ]
 
-    XFrames class >> test [
+    " XFrames class >> test [
         Transcript show: 'Callback called with no arguments'; nl.
-    ]
+    ] "
 ]
 
-callback3 := [ XFrames test ].
+" callback3 := [ XFrames test ]. "
 
-callbackDescriptor3 := CCallbackDescriptor for: callback3
-    returning: #void
-    withArgs: #().
 
-XFrames init: './assets' b: '{}' c: '{}' onInit: callbackDescriptor3 onTextChanged: callbackDescriptor3 onComboChanged: callbackDescriptor3 onNumericValueChanged: callbackDescriptor3 onBooleanValueChanged: callbackDescriptor3 onMultipleNumericValuesChanged: callbackDescriptor3 onClick: callbackDescriptor3.
+XFrames init: './assets' fontsDefs: '{}' themeDef: '{}' onInit: onInitCb onTextChanged: onTextChangedCb onComboChanged: onComboChangedCbs onNumericValueChanged: onNumericValueChangedCb onBooleanValueChanged: onBooleanValueChangedCb onMultipleNumericValuesChanged: onInitCb onClick: onClickCb.
 
 inputStringOne := stdin nextLine.
 
