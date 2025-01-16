@@ -60,7 +60,7 @@ DLD addLibrary: 'libxframesshared.so'.
  
 CObject subclass: XFrames [
     XFrames class >> init: a b: bb c: cc onInit: onInitCb onTextChanged: onTextChangedCb onComboChanged: onComboChangedCb onNumericValueChanged: onNumericValueChangedCb onBooleanValueChanged: onBooleanValueChangedCb onMultipleNumericValuesChanged: onMultipleNumericValuesChangedCb onClick: onClickCb [
-        <cCall: 'init' returning: #void args: #(#string #string #string #smalltalk #smalltalk #smalltalk #smalltalk #smalltalk #smalltalk #smalltalk)>
+        <cCall: 'init' returning: #void args: #(#string #string #string #unknown #unknown #unknown #unknown #unknown #unknown #unknown)>
     ]
 
     XFrames class >> test [

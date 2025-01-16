@@ -11,8 +11,12 @@ Clone the official repo
 
 `autoreconf --install --force` will create a configure file
 
+sudo apt install libglib2.0-0 ?
+
 `sudo apt install libsigsegv-dev libtool gawk libsigsegv2 bison flex texinfo`
 
 https://stackoverflow.com/questions/37054929/using-extended-classes-in-gst-gnu-smalltalk
+
+`git clone https://github.com/timfel/JSON-st`
 
 `sudo gst-package JSON-st/package.xml`
