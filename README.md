@@ -20,3 +20,9 @@ https://stackoverflow.com/questions/37054929/using-extended-classes-in-gst-gnu-s
 `git clone https://github.com/timfel/JSON-st`
 
 `sudo gst-package JSON-st/package.xml`
+
+## Screenshots
+
+Ubuntu 24.04
+
+![image](https://github.com/user-attachments/assets/d3e04d5c-9670-443b-aa71-23cad2a6614c)
