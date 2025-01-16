@@ -59,8 +59,8 @@ DLD addLibrary: 'libxframesshared.so'.
 (CFunctionDescriptor isFunction: 'init') displayNl.
  
 CObject subclass: XFrames [
-    XFrames class >> init: a b: bb c: cc onInit: onInitCb [
-        <cCall: 'init' returning: #void args: #(#string #string #string #smalltalk)>
+    XFrames class >> init: a b: bb c: cc onInit: onInitCb onTextChanged: onTextChangedCb onComboChanged: onComboChangedCb onNumericValueChanged: onNumericValueChangedCb onBooleanValueChanged: onBooleanValueChangedCb onMultipleNumericValuesChanged: onMultipleNumericValuesChangedCb onClick: onClickCb [
+        <cCall: 'init' returning: #void args: #(#string #string #string #smalltalk #smalltalk #smalltalk #smalltalk #smalltalk #smalltalk #smalltalk)>
     ]
 
     XFrames class >> test [
@@ -74,7 +74,7 @@ callbackDescriptor3 := CCallbackDescriptor for: callback3
     returning: #void
     withArgs: #().
 
-XFrames init: './assets' b: '{}' c: '{}' onInit: callbackDescriptor3.
+XFrames init: './assets' b: '{}' c: '{}' onInit: callbackDescriptor3 onTextChanged: callbackDescriptor3 onComboChanged: callbackDescriptor3 onNumericValueChanged: callbackDescriptor3 onBooleanValueChanged: callbackDescriptor3 onMultipleNumericValuesChanged: callbackDescriptor3 onClick: callbackDescriptor3.
 
 inputStringOne := stdin nextLine.
 
