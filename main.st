@@ -1,29 +1,30 @@
-| myDict jsonStr onInitCb onInitClosureBlock onTextChangedCb onTextChangedClosureBlock onComboChangedClosureBlock onComboChangedCb onNumericValueChangedClosureBlock onNumericValueChangedCb onBooleanValueChangedClosureBlock onBooleanValueChangedCb onMultipleNumericValuesChangedClosureBlock onMultipleNumericValuesChangedCb onClickCb onClickClosureBlock |
+| fontDefsCollection fontDefs fontDef fontDefsWriteStream fontDefsJson onInitCb onInitClosureBlock onTextChangedCb onTextChangedClosureBlock onComboChangedClosureBlock onComboChangedCb onNumericValueChangedClosureBlock onNumericValueChangedCb onBooleanValueChangedClosureBlock onBooleanValueChangedCb onMultipleNumericValuesChangedClosureBlock onMultipleNumericValuesChangedCb onClickCb onClickClosureBlock |
 
 PackageLoader fileInPackage: 'JSON'.
 PackageLoader fileInPackage: 'DLD'.
-" PackageLoader fileInPackage: 'CObject'. "
 
-OnInitCb := [:callback | "Callback logic"].
-OnTextChangedCb := [:index :text | "Handle text changed"].
-OnComboChangedCb := [:index :newValue | "Handle combo changed"].
-OnNumericValueChangedCb := [:index :value | "Handle numeric value changed"].
-OnBooleanValueChangedCb := [:index :value | "Handle boolean value changed"].
-OnMultipleNumericValuesChangedCb := [:index :values :numValues | "Handle multiple numeric values changed"].
-OnClickCb := [:index | "Handle click"].
+OnInitCb := [:callback | ].
+OnTextChangedCb := [:index :text | ].
+OnComboChangedCb := [:index :newValue | ].
+OnNumericValueChangedCb := [:index :value | ].
+OnBooleanValueChangedCb := [:index :value | ].
+OnMultipleNumericValuesChangedCb := [:index :values :numValues | ].
+OnClickCb := [:index | ].
 
-myDict := Dictionary new.
-myDict at: 'name' put: 'Alice'.
-myDict at: 'age' put: 30.
+fontDefsCollection := OrderedCollection new.
 
-jsonStr := WriteStream on: String new.
-myDict jsonWriteOn: jsonStr.
+fontDef := Dictionary new.
+fontDef at: 'name' put: 'roboto-regular'.
+fontDef at: 'size' put: 16.
 
-x := Dictionary new.
-x at: 'One' put: 1.
-x at: 'Two' put: 2.
-x at: 1 put: 'One'.
-x at: 2 put: 'Two'.
+fontDefsCollection add: fontDef.
+
+fontDefs := Dictionary new.
+fontDefs at: 'defs' put: fontDefsCollection.
+
+fontDefsWriteStream := WriteStream on: String new.
+fontDefs jsonWriteOn: fontDefsWriteStream.
+fontDefsJson := fontDefsWriteStream contents.
 
 " @see https://www.gnu.org/software/smalltalk/manual/html_node/C-data-types.html "
 CObject subclass: XFrames [
@@ -38,10 +39,6 @@ CObject subclass: XFrames [
     XFrames class >> setChildren: parentId childrenIds: childrenIdsJson [
         <cCall: 'setChildren' returning: #void args: #(#int #string)>
     ]
-
-    " XFrames class >> test [
-        Transcript show: 'Callback called with no arguments'; nl.
-    ] "
 ]
 
 
@@ -114,7 +111,6 @@ onMultipleNumericValuesChangedClosureBlock := [ :arg1 :arg2 :arg3 |
     Transcript show: 'Multiple numeric values changed: ', arg1 printString, ' : ', arg2 printString; nl.
 ].
 
-"I cannot see 'bool' anywhere in the docs"
 onMultipleNumericValuesChangedCb := CCallbackDescriptor for: onMultipleNumericValuesChangedClosureBlock
     returning: #void
     withArgs: #(#int #cObject #int).
@@ -131,13 +127,6 @@ DLD addLibrary: 'libxframesshared.so'.
 (CFunctionDescriptor isFunction: 'init') displayNl.
  
 
-
-" callback3 := [ XFrames test ]. "
-
-
-XFrames init: './assets' fontsDefs: '{}' themeDef: '{}' onInit: onInitCb onTextChanged: onTextChangedCb onComboChanged: onComboChangedCbs onNumericValueChanged: onNumericValueChangedCb onBooleanValueChanged: onBooleanValueChangedCb onMultipleNumericValuesChanged: onInitCb onClick: onClickCb.
+XFrames init: './assets' fontsDefs: fontDefsJson themeDef: '{}' onInit: onInitCb onTextChanged: onTextChangedCb onComboChanged: onComboChangedCbs onNumericValueChanged: onNumericValueChangedCb onBooleanValueChanged: onBooleanValueChangedCb onMultipleNumericValuesChanged: onInitCb onClick: onClickCb.
 
 inputStringOne := stdin nextLine.
-
-
-" x displayNl. "
